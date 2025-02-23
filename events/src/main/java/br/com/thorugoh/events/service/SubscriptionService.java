@@ -3,6 +3,7 @@ package br.com.thorugoh.events.service;
 import br.com.thorugoh.events.dto.SubscriptionResponse;
 import br.com.thorugoh.events.exception.EventNotFoundException;
 import br.com.thorugoh.events.exception.SubscriptionConflictException;
+import br.com.thorugoh.events.exception.UserIndicatorNotFoundException;
 import br.com.thorugoh.events.model.Event;
 import br.com.thorugoh.events.model.Subscription;
 import br.com.thorugoh.events.model.User;
@@ -23,7 +24,7 @@ public class SubscriptionService {
     @Autowired
     private SubscriptionRepo subRepo;
 
-    public SubscriptionResponse createNewSubscription(String eventName, User user){
+    public SubscriptionResponse createNewSubscription(String eventName, User user, Integer userId){
         // get event by name
         Event evt = evtRepo.findByPrettyName(eventName);
         if(evt == null ) {
@@ -35,9 +36,15 @@ public class SubscriptionService {
             userRec = userRepo.save(user);
         }
 
+        User indicator = userRepo.findById(userId).orElse(null);
+        if(indicator == null){
+            throw new UserIndicatorNotFoundException("User indicator does not exist");
+        }
+
         Subscription subs = new Subscription();
         subs.setEvent(evt);
         subs.setSubscriber(userRec);
+        subs.setIndication(indicator);
 
         Subscription tmpSub = subRepo.findByEventAndSubscriber(evt, userRec);
         if(tmpSub != null){

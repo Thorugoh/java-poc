@@ -4,6 +4,7 @@ import br.com.thorugoh.events.dto.ErrorMessage;
 import br.com.thorugoh.events.dto.SubscriptionResponse;
 import br.com.thorugoh.events.exception.EventNotFoundException;
 import br.com.thorugoh.events.exception.SubscriptionConflictException;
+import br.com.thorugoh.events.exception.UserIndicatorNotFoundException;
 import br.com.thorugoh.events.model.Subscription;
 import br.com.thorugoh.events.model.User;
 import br.com.thorugoh.events.service.SubscriptionService;
@@ -19,15 +20,17 @@ public class SubscriptionController {
     @Autowired
     private SubscriptionService service;
 
-    @PostMapping("/subscription/{prettyName}")
-    public ResponseEntity<?> createSubscription(@PathVariable String prettyName, @RequestBody User subscriber){
+    @PostMapping({"/subscription/{prettyName}", "/subscription/{prettyName}/{userId}"})
+    public ResponseEntity<?> createSubscription(@PathVariable String prettyName,
+                                                @RequestBody User subscriber,
+                                                @PathVariable(required = false) Integer userId){
         try {
 
-            SubscriptionResponse res = service.createNewSubscription(prettyName, subscriber);
+            SubscriptionResponse res = service.createNewSubscription(prettyName, subscriber, userId);
             if(res != null){
                 return ResponseEntity.ok(res);
             }
-        }catch (EventNotFoundException ex) {
+        }catch (EventNotFoundException | UserIndicatorNotFoundException ex) {
             return ResponseEntity.status(404).body(new ErrorMessage(ex.getMessage()));
         }catch (SubscriptionConflictException ex) {
             return ResponseEntity.status(409).body(new ErrorMessage(ex.getMessage()));
