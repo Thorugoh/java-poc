@@ -1,5 +1,8 @@
 package br.com.thorugoh.events.service;
 
+import br.com.thorugoh.events.dto.SubscriptionResponse;
+import br.com.thorugoh.events.exception.EventNotFoundException;
+import br.com.thorugoh.events.exception.SubscriptionConflictException;
 import br.com.thorugoh.events.model.Event;
 import br.com.thorugoh.events.model.Subscription;
 import br.com.thorugoh.events.model.User;
@@ -20,16 +23,28 @@ public class SubscriptionService {
     @Autowired
     private SubscriptionRepo subRepo;
 
-    public Subscription createNewSubscription(String eventName, User user){
+    public SubscriptionResponse createNewSubscription(String eventName, User user){
         // get event by name
         Event evt = evtRepo.findByPrettyName(eventName);
-        user = userRepo.save(user);
+        if(evt == null ) {
+            throw  new EventNotFoundException("Event " + eventName + " does not exists");
+        }
+
+        User userRec = userRepo.findByEmail(user.getEmail());
+        if(userRec == null) {
+            userRec = userRepo.save(user);
+        }
 
         Subscription subs = new Subscription();
         subs.setEvent(evt);
-        subs.setSubscriber(user);
+        subs.setSubscriber(userRec);
+
+        Subscription tmpSub = subRepo.findByEventAndSubscriber(evt, userRec);
+        if(tmpSub != null){
+            throw new SubscriptionConflictException("There is already a subscription for user " + userRec.getName() + " on event " + evt.getTitle());
+        }
 
         Subscription res = subRepo.save(subs);
-        return res;
+        return new SubscriptionResponse(res.getSubscriptionNumber(), "https://codecraft.com/"+res.getEvent().getPrettyName()+"/"+res.getSubscriber().getId());
     }
 }
