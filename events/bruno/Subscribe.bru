@@ -1,0 +1,18 @@
+meta {
+  name: Subscribe
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:8080/subscription/codecraft-summit-2025
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "name": "Victor Hugo",
+    "email": "hugo.victoor77@gmail.com"
+  }
+}

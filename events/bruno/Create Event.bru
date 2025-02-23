@@ -1,0 +1,23 @@
+meta {
+  name: Create Event
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/events
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title": "Java Imersion",
+    "location": "Online",
+    "price": 0.0,
+    "startDate": "2025-06-01",
+    "endDate": "2025-06-03",
+    "startTime": "19:00:00",
+    "endTime": "22:00:00"
+  }
+}
