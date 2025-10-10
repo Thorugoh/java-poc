@@ -83,11 +83,39 @@ public class BirdTest {
         assertEquals("walks", field.getName());
     }
 
+    @Test
     public void givenClassField_whenGetsType_thenCorrect() throws ClassNotFoundException, NoSuchFieldException {
         Class<?> birdClass = Class.forName("com.thorugoh.animals.Bird");
         Field field = birdClass.getDeclaredField("walks");
         Class<?> fieldClass = field.getType();
 
         assertEquals("boolean", fieldClass.getSimpleName());
+    }
+
+    @Test
+    public void givenClassField_whenSetsAndGetsValue_thenCorrect() throws Exception {
+        Class<?> birdClass = Class.forName("com.thorugoh.animals.Bird");
+        Bird bird = (Bird) birdClass.getConstructor().newInstance();
+        Field field = birdClass.getDeclaredField("walks");
+        field.setAccessible(true);
+
+        assertFalse(field.getBoolean(bird));
+        assertFalse(bird.walks());
+
+        field.set(bird, true);
+
+
+        assertTrue(field.getBoolean(bird));
+        assertTrue(bird.walks());
+
+    }
+
+    @Test
+    public void givenClassField_whenGetsAndSetsWithNull_thenCorrect() throws Exception {
+        Class<?> birdClass = Class.forName("com.thorugoh.animals.Bird");
+        Field field = birdClass.getField("CATEGORY");
+        field.setAccessible(true);
+
+        assertEquals("domestic", field.get(null));
     }
 }
