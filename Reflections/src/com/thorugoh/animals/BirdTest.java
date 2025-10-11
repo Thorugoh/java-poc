@@ -4,6 +4,11 @@ import org.junit.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -117,5 +122,62 @@ public class BirdTest {
         field.setAccessible(true);
 
         assertEquals("domestic", field.get(null));
+    }
+
+    private static List<String> getMethodNames(Method[] methods) {
+        List<String> methodNames = new ArrayList<>();
+        for (Method method : methods)
+            methodNames.add(method.getName());
+        return methodNames;
+    }
+
+    // Inspecting Methods
+    @Test
+    public void givenClass_whenGetsAllPublicMethods_thenCorrect() throws ClassNotFoundException {
+        Class<?> birdClass = Class.forName("com.thorugoh.animals.Bird");
+        Method[] methods = birdClass.getMethods();
+        List<String> methodNames = getMethodNames(methods);
+
+        assertTrue(methodNames.containsAll(Arrays.asList("equals", "notifyAll", "hashCode", "walks", "eats", "toString")));
+    }
+
+    @Test
+    public void givenClass_whenGetsOnlyDeclaredMethods_thenCorrect() throws ClassNotFoundException {
+       Class<?> birdClass = Class.forName("com.thorugoh.animals.Bird");
+       List<String> actualMethodNames = getMethodNames(birdClass.getDeclaredMethods());
+
+       List<String> expectedMethodNames = Arrays.asList("walks", "setWalks", "eats", "getSound");
+
+       assertEquals(expectedMethodNames.size(), actualMethodNames.size());
+       assertTrue(expectedMethodNames.containsAll(actualMethodNames));
+       assertTrue(actualMethodNames.containsAll(expectedMethodNames));
+    }
+
+    @Test
+    public void givenMethodName_whenGetsMethod_thenCorrect() throws NoSuchMethodException {
+        Bird bird = new Bird();
+        Method walksMethod = bird.getClass().getDeclaredMethod("walks");
+        Method setWalksMethod = bird.getClass().getDeclaredMethod("setWalks", boolean.class);
+
+        assertTrue(walksMethod.canAccess(bird));
+        assertTrue(setWalksMethod.canAccess(bird));
+    }
+
+    @Test
+    public void givenMethod_whenInvokes_thenCorrect() throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        Class<?> birdClass = Class.forName("com.thorugoh.animals.Bird");
+        Bird bird = (Bird) birdClass.getConstructor().newInstance();
+        Method setWalksMethod = birdClass.getDeclaredMethod("setWalks", boolean.class);
+        Method walksMethod = birdClass.getDeclaredMethod("walks");
+        boolean walks = (boolean) walksMethod.invoke(bird);
+
+        assertFalse(walks);
+        assertFalse(bird.walks());
+
+        setWalksMethod.invoke(bird, true);
+
+        boolean walks2 = (boolean) walksMethod.invoke(bird);
+        assertTrue(walks2);
+        assertTrue(bird.walks());
     }
 }
