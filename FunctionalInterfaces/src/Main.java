@@ -30,6 +30,14 @@ public class Main {
         for (byte b : transformedArray) {
             System.out.print(b + " ");
         }
+
+        // Two-Arity Function Specializations
+        Map<String, Integer> salaries = new HashMap<>();
+        salaries.put("Alice", 50000);
+        salaries.put("Bob", 60000);
+        salaries.put("Charlie", 70000);
+
+        salaries.replaceAll((name, oldValue) -> name.equals("Alice") ? oldValue + 5000 : oldValue);
     }
 
 
