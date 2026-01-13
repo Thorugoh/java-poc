@@ -10,6 +10,10 @@ public class AnonymousSupplierDemo {
             }
         };
 
+        Supplier<LocalDateTime> lambdaDateTimeSupplier = () -> LocalDateTime.now();
+
+
         System.out.println("Current Date and Time: " + dateTimeSupplier.get());
+        System.out.println("Current Date and Time (Lambda): " + lambdaDateTimeSupplier.get());
     }
 }
