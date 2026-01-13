@@ -13,8 +13,11 @@ public class SupplierDemo implements Supplier<LocalDateTime> {
     public static void main(String[] args) {
         Supplier<LocalDateTime> dateTimeSupplier = new SupplierDemo();
         System.out.println("Current Date and Time: " + dateTimeSupplier.get());
+        System.out.println(productSupplier().get());
+    }
 
-        Supplier<List<Product>> productSupplier = () -> {
+    private static Supplier<List<Product>> productSupplier() {
+        Supplier<List<Product>> supplier = () -> {
             List<Product> productList = new ArrayList<Product>();
             productList.add(new Product(1, "Laptop", 999.99f));
             productList.add(new Product(2, "Smartphone", 499.49f));
@@ -23,6 +26,6 @@ public class SupplierDemo implements Supplier<LocalDateTime> {
             return productList;
         };
 
-        System.out.println(productSupplier.get());
-    }
+        return supplier;
+    };
 }
