@@ -11,6 +11,7 @@ public class AnonymousSupplierDemo {
         };
 
         Supplier<LocalDateTime> lambdaDateTimeSupplier = () -> LocalDateTime.now();
+
         Supplier<LocalDateTime> methodRefDateTimeSupplier = LocalDateTime::now;
 
         System.out.println("Current Date and Time: " + dateTimeSupplier.get());
