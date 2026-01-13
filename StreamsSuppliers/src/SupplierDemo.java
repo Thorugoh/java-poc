@@ -1,9 +1,15 @@
-// Different from a consumer which takes in a value and returns nothing
-// or a function which takes in a value and returns another value
-// A supplier takes in nothing and returns a value
+import java.time.LocalDateTime;
+import java.util.function.Supplier;
 
-// Structure of a Supplier
-@FunctionalInterface
-public interface Supplier<T> {
-    T get();
+public class SupplierDemo implements Supplier<LocalDateTime> {
+
+    @Override
+    public LocalDateTime get() {
+        return LocalDateTime.now();
+    }
+
+    public static void main(String[] args) {
+        Supplier<LocalDateTime> dateTimeSupplier = new SupplierDemo();
+        System.out.println("Current Date and Time: " + dateTimeSupplier.get());
+    }
 }
