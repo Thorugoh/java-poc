@@ -28,4 +28,13 @@ public class SupplierDemo implements Supplier<LocalDateTime> {
 
         return supplier;
     };
+
+    private static List<Product> getProducts() {
+        List<Product> productList = new ArrayList<Product>();
+        productList.add(new Product(1, "Laptop", 999.99f));
+        productList.add(new Product(2, "Smartphone", 499.49f));
+        productList.add(new Product(3, "Tablet", 299.29f));
+
+        return productList;
+    };
 }
