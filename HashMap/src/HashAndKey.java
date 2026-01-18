@@ -9,6 +9,7 @@ public class HashAndKey {
 
     @Override
     public int hashCode() {
+        System.out.println("calling hashCode for key: " + key + " with hash: " + hash);
         return this.hash;
     }
 
