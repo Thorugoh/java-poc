@@ -4,6 +4,7 @@ public class MyHashMap<K, V>{
     private int size = 0;
 
     public MyHashMap(int capacity) {
+        this.capacity = capacity;
         table = new Node[capacity];
     }
 
@@ -34,6 +35,22 @@ public class MyHashMap<K, V>{
         }
     }
 
+    public V get(K key) {
+        int index = getIndex(key);
+        int hash = getHash(key);
+
+        Node<K, V> current = table[index];
+
+        while (current != null) {
+            if(current.hash == hash && (current.key == key || current.key.equals(key))) {
+                return current.value;
+            }
+            current = current.next;
+        }
+
+        return null;
+    }
+
     public void put(K key, V value) {
         if (size >= capacity * 0.75) {
             resize();
@@ -60,5 +77,17 @@ public class MyHashMap<K, V>{
                current = current.next;
            }
         }
+    }
+}
+
+class HashMapExample {
+    public static void main(String[] args) {
+        MyHashMap<String, String> map = new MyHashMap<>(4);
+
+        map.put("name", "Victor Hugo");
+        map.put("age", "29");
+        map.put("city", "Florianopolis");
+
+        System.out.println(map.get("name"));
     }
 }
