@@ -15,26 +15,49 @@ public class MyHashMap<K, V>{
         return getHash(key) % capacity;
     }
 
-    public void put(K key, V value) {
-        int index = getIndex(key);
+    private void resize(){
+        int oldCapacity = capacity;
+        capacity = oldCapacity * 2;
 
-        Node<K, V> head = table[index];
-        if(head == null) {
-            table[index] = new Node<>(getHash(key), key, value, null);
+        Node<K, V>[] oldTable = table;
+        table = new Node[capacity];
+
+        size = 0;
+
+        for(int i = 0; i < oldCapacity; i++){
+            Node<K, V> current = oldTable[i];
+
+            while(current != null) {
+                put(current.key, current.value);
+                current = current.next;
+            }
+        }
+    }
+
+    public void put(K key, V value) {
+        if (size >= capacity * 0.75) {
+            resize();
+        }
+
+        int index = getIndex(key);
+        int hash = getHash(key);
+
+        if(table[index] == null) {
+            table[index] = new Node<>(hash, key, value, null);
             size++;
         } else {
-           while (head != null) {
-               if (head.hash == getHash(key) && head.key.equals(key)) {
-                   head.value = value;
+            Node<K, V> current = table[index];
+           while (current != null) {
+               if (current.hash == hash && current.key.equals(key)) {
+                   current.value = value;
                    return;
                }
-               if(head.next == null) {
-                   head.next = new Node<>(getHash(key), key, value, null);
+               if(current.next == null) {
+                   current.next = new Node<>(hash, key, value, null);
                    size++;
                    return;
-               } else {
-                   head = head.next;
                }
+               current = current.next;
            }
         }
     }
