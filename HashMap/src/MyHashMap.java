@@ -87,6 +87,7 @@ class HashMapExample {
         map.put("name", "Victor Hugo");
         map.put("age", "29");
         map.put("city", "Florianopolis");
+        map.put("gender", "Male");
 
         System.out.println(map.get("name"));
     }
