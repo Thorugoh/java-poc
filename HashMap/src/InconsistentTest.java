@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 
 public class InconsistentTest {
@@ -27,6 +27,16 @@ public class InconsistentTest {
         assertTrue(wrongResultCount > 0);
     }
 
+    @Test
+    public void givenConcurrentMap_whenSumParallel_thenCorrect() throws Exception {
+        Map<String, Integer> map = new ConcurrentHashMap<>();
+        List<Integer> sumList = parallelSum100(map, 1000);
+
+        assertEquals(1, sumList.stream().distinct().count());
+        long wrongResultCount = sumList.stream().filter(num -> num != 100).count();
+        assertEquals(0, wrongResultCount);
+    }
+
     private List<Integer> parallelSum100(Map<String, Integer> map,
                                          int executionTimes) throws InterruptedException {
         List<Integer> sumList = new ArrayList<>(1000);
@@ -39,7 +49,7 @@ public class InconsistentTest {
                     for (int k = 0; k < 10; k++)
                         map.computeIfPresent(
                                 "test",
-                                (key, value) -> value + 1
+                                (_, value) -> value + 1
                         );
                 });
             }
