@@ -37,6 +37,28 @@ public class InconsistentTest {
         assertEquals(0, wrongResultCount);
     }
 
+    @Test(expected = NullPointerException.class)
+    public void givenConcurrentHashMap_whenPutWithNullKey_thenThrowsNPE(){
+        Map<String, Integer> map = new ConcurrentHashMap<>();
+        map.put(null, 1);
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void givenConcurrentHashMap_whenPutWithNullValue_thenThrowsNPE(){
+        Map<String, Integer> map = new ConcurrentHashMap<>();
+        map.put("test", null);
+    }
+
+    @Test
+    public void givenKeyPresent_whenComputeRemappingNull_thenMappingRemoved() {
+        Object oldValue = "value";
+        Map<String, Object> map = new ConcurrentHashMap<>();
+        map.put("test", oldValue);
+        map.compute("test", (key, value) -> null);
+        assertNull(map.get("test"));
+
+    }
+
     private List<Integer> parallelSum100(Map<String, Integer> map,
                                          int executionTimes) throws InterruptedException {
         List<Integer> sumList = new ArrayList<>(1000);

@@ -82,6 +82,12 @@ class TreeNode<K, V> extends Node<K, V> {
         moveRootToFront(table, bucketIndex, root);
     }
 
+//    TreeNode<K, V> rotateLeft(TreeNode<K, V> root, TreeNode<K, V> nodeToRotate) {
+//        TreeNode<K, V> rightChild;
+//        TreeNode<K, V> middleNode;
+//        TreeNode<K, V> grandParent;
+//    }
+
     int tieBreakOrder(Object keyA, Object keyB) {
         int comparison;
         if (keyA == null || keyB == null ||

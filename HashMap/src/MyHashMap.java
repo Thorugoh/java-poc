@@ -1,7 +1,11 @@
-public class MyHashMap<K, V>{
+public class MyHashMap<K, V> {
     private Node<K, V>[] table;
     private int capacity = 16;
     private int size = 0;
+
+    private static final int TREEIFY_THRESHOLD = 8;
+    private static final int MIN_TREEIFY_CAPACITY = 64;
+
 
     public MyHashMap(int capacity) {
         this.capacity = capacity;
@@ -16,7 +20,32 @@ public class MyHashMap<K, V>{
         return getHash(key) % capacity;
     }
 
-    private void resize(){
+    private void treeifyBin(int index) {
+        Node<K, V> listHead = table[index];
+        if (listHead != null) {
+            TreeNode<K, V> treeHead = null;
+            TreeNode<K, V> lastTreeNode = null;
+            Node<K, V> current = listHead;
+
+            do {
+                TreeNode<K, V> newTreeNode = new TreeNode<>(current.hash, current.key, current.value, null);
+                if (lastTreeNode == null) {
+                    treeHead = newTreeNode;
+                } else {
+                    lastTreeNode.next = newTreeNode;
+                }
+                lastTreeNode = newTreeNode;
+            } while ((current = current.next) != null);
+
+            table[index] = treeHead;
+
+            if (treeHead != null) {
+                treeHead.treeify(table, index);
+            }
+        }
+    }
+
+    private void resize () {
         int oldCapacity = capacity;
         capacity = oldCapacity * 2;
 
@@ -25,24 +54,24 @@ public class MyHashMap<K, V>{
 
         size = 0;
 
-        for(int i = 0; i < oldCapacity; i++){
+        for (int i = 0; i < oldCapacity; i++) {
             Node<K, V> current = oldTable[i];
 
-            while(current != null) {
+            while (current != null) {
                 put(current.key, current.value);
                 current = current.next;
             }
         }
     }
 
-    public V get(K key) {
+    public V get (K key){
         int index = getIndex(key);
         int hash = getHash(key);
 
         Node<K, V> current = table[index];
 
         while (current != null) {
-            if(current.hash == hash && (current.key == key || current.key.equals(key))) {
+            if (current.hash == hash && (current.key == key || current.key.equals(key))) {
                 return current.value;
             }
             current = current.next;
@@ -51,7 +80,7 @@ public class MyHashMap<K, V>{
         return null;
     }
 
-    public void put(K key, V value) {
+    public void put (K key, V value){
         if (size >= capacity * 0.75) {
             resize();
         }
@@ -59,25 +88,26 @@ public class MyHashMap<K, V>{
         int index = getIndex(key);
         int hash = getHash(key);
 
-        if(table[index] == null) {
+        if (table[index] == null) {
             table[index] = new Node<>(hash, key, value, null);
             size++;
         } else {
             Node<K, V> current = table[index];
-           while (current != null) {
-               if (current.hash == hash && current.key.equals(key)) {
-                   current.value = value;
-                   return;
-               }
-               if(current.next == null) {
-                   current.next = new Node<>(hash, key, value, null);
-                   size++;
-                   return;
-               }
-               current = current.next;
-           }
+            while (current != null) {
+                if (current.hash == hash && current.key.equals(key)) {
+                    current.value = value;
+                    return;
+                }
+                if (current.next == null) {
+                    current.next = new Node<>(hash, key, value, null);
+                    size++;
+                    return;
+                }
+                current = current.next;
+            }
         }
     }
+
 }
 
 class HashMapExample {
