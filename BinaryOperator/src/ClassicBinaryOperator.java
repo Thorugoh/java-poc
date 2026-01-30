@@ -1,3 +1,5 @@
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.BinaryOperator;
 
 public class ClassicBinaryOperator implements BinaryOperator<Integer> {
@@ -23,5 +25,22 @@ class BinaryOperatorLambda {
 
         int divideResult = divide.apply(7, 3);
         System.out.println("Division Result: " + divideResult);
+    }
+}
+
+class BinaryOperatorStream {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+
+        BinaryOperator<Integer> add = (a, b) -> a + b;
+        int sum = numbers.stream().reduce(0, add);
+
+        int sum1 = numbers.stream().reduce(0, (a, b) -> a + b;);
+
+        int sum2 = numbers.stream().reduce(0, Integer::sum);
+
+        System.out.println("Sum: " + sum);
+        System.out.println("Sum1: " + sum1);
+        System.out.println("Sum2: " + sum2);
     }
 }
