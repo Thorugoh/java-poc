@@ -35,7 +35,7 @@ class BinaryOperatorStream {
         BinaryOperator<Integer> add = (a, b) -> a + b;
         int sum = numbers.stream().reduce(0, add);
 
-        int sum1 = numbers.stream().reduce(0, (a, b) -> a + b;);
+        int sum1 = numbers.stream().reduce(0, (a, b) -> a + b);
 
         int sum2 = numbers.stream().reduce(0, Integer::sum);
 
