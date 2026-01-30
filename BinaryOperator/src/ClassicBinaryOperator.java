@@ -12,6 +12,16 @@ public class ClassicBinaryOperator implements BinaryOperator<Integer> {
         Integer result = operator.apply(5, 10);
         System.out.println("Result: " + result);
     }
+}
 
+class BinaryOperatorLambda {
+    public static void main(String[] args) {
+        BinaryOperator<Integer> divide = (a, b) -> {
+            double divisionResult = (double) a / b;
+            return (int) Math.round(divisionResult);
+        };
 
+        int divideResult = divide.apply(7, 3);
+        System.out.println("Division Result: " + divideResult);
+    }
 }
