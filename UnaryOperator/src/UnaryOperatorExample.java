@@ -39,3 +39,22 @@ class UnaryOperatorIntWithStream {
         System.out.println("Result: " + results);
     }
 }
+
+class UnaryOperatorLambda {
+    public static void main(String[] args) {
+        UnaryOperator<String> stringProcessor = s -> s.toUpperCase().trim();
+
+        String inputText = "    hello world    ";
+
+        String processedText = stringProcessor.apply(inputText);
+        System.out.println(processedText);
+
+        List<String> inputTexts = Arrays.asList("   example text   ", "   another example   ", "   one more example   ");
+        List<String> processedTexts = inputTexts.stream()
+                                               .map(stringProcessor)
+                                               .collect(Collectors.toList());
+
+        System.out.println("Original texts: " + inputTexts);
+        System.out.println("Processed texts: " + processedTexts);
+    }
+}
