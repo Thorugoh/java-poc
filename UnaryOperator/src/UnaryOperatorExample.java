@@ -1,4 +1,7 @@
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
 
 public class UnaryOperatorExample implements UnaryOperator<String> {
     @Override
@@ -22,5 +25,17 @@ class UnaryOperatorInt {
 
         System.out.println("Original value: " + originalValue);
         System.out.println("After incrementing by one: " + result);
+    }
+}
+
+class UnaryOperatorIntWithStream {
+    public static void main(String[] args) {
+        UnaryOperator<Integer> incrementbyOne = x -> x + 1;
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5);
+
+        List<Integer> results = numbers.stream().map(incrementbyOne).toList();
+
+        System.out.println("Original numbers: " + numbers);
+        System.out.println("Result: " + results);
     }
 }
