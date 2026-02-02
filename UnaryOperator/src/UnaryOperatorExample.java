@@ -12,3 +12,15 @@ public class UnaryOperatorExample implements UnaryOperator<String> {
         System.out.println(result);
     }
 }
+
+class UnaryOperatorInt {
+    public static void main(String[] args) {
+        UnaryOperator<Integer> incrementByOne = x -> x + 1;
+        int originalValue = 5;
+
+        int result = incrementByOne.apply(originalValue);
+
+        System.out.println("Original value: " + originalValue);
+        System.out.println("After incrementing by one: " + result);
+    }
+}
