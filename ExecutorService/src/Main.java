@@ -35,5 +35,13 @@ public class Main {
         Future<String> future = es.submit(callableTask);
 
         String result = es.invokeAny(callableTasks);
+
+        List<Future<String>> futures = es.invokeAll(callableTasks);
+
+        es.shutdown();
+
+        List<Runnable> notExecutedTasks = es.shutdownNow();
+
+
     }
 }
