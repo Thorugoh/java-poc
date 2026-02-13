@@ -15,6 +15,7 @@ class SharedCounterLock {
         }
     }
 }
+
 public class LockExample {
     public static void main(String[] args) {
         SharedCounterLock counter = new SharedCounterLock();
