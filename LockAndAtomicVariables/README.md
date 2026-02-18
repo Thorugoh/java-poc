@@ -25,3 +25,13 @@ if (transactionLock.tryLock()) {
     System.out.println("Lock is busy! Moving on to another task.");
 }
 ```
+
+### 3. Using synchronized - Always waits forever if busy (just like lock())
+```java
+// ... inside some method ...
+final Object transactionMonitor = new Object();
+synchronized (transactionMonitor) {
+    // Perform critical transaction
+    System.out.println("Got the monitor lock, working...");
+} // Automatically unlocks here, even if an exception is thrown
+```
