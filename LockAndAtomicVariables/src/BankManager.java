@@ -25,7 +25,7 @@ public class BankManager {
     private final Lock transactionLock = new ReentrantLock();
 
     public void transfer(Account fromAccount, Account toAccount, double amount) {
-        // We lock the entire operation
+        // lock the entire operation
         transactionLock.lock();
         try {
             if(fromAccount.getBalance() >= amount) {
@@ -65,6 +65,7 @@ public class BankManager {
         t2.start();
 
         try {
+            // await for both threads to finish
             t1.join();
             t2.join();
         } catch (InterruptedException e) {
