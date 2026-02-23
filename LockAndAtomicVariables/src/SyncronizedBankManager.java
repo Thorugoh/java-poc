@@ -4,7 +4,12 @@ public class SyncronizedBankManager {
 
     public void transfer(Account fromAccount, Account toAccount, double amount) {
         // Lock the critical section using the monitor object
+        System.out.println(Thread.currentThread().getName() + " - Waiting for the lock...");
         synchronized (transactionMonitor) {
+            System.out.println(Thread.currentThread().getName() + " --- Acquired the lock! Processing...");
+
+            try { Thread.sleep(50); } catch (InterruptedException e) {}
+
             if(fromAccount.getBalance() >= amount) {
                 fromAccount.withdraw(amount);
                 toAccount.deposit(amount);
@@ -12,11 +17,13 @@ public class SyncronizedBankManager {
             } else {
                 System.out.println(Thread.currentThread().getName() + " - Insufficient funds for transfer");
             }
+            System.out.println(Thread.currentThread().getName() + " --- Releasing the lock.\n");
         } // The lock is automatically released here! No need for try/finally.
+
     }
 
     public static void main(String[] args) {
-        BankManager manager = new BankManager();
+        SyncronizedBankManager manager = new SyncronizedBankManager();
         Account accountA = new Account(1000);
         Account accountB = new Account(500);
 
