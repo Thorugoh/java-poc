@@ -38,7 +38,7 @@ public class ObjectToJsonConverter {
         for(Field field : clazz.getDeclaredFields()) {
             field.setAccessible(true);
             if(field.isAnnotationPresent(JsonElement.class)) {
-                jsonElementsMap.put(getKey(field), (String) field.get(object));
+                jsonElementsMap.put(getKey(field), String.valueOf(field.get(object)));
             }
         }
 
