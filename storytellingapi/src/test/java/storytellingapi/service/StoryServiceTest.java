@@ -52,4 +52,13 @@ public class StoryServiceTest {
         verify(aiContentGenerator, times(1)).generateContent(prompt);
         verify(repository, times(1)).save(any(Story.class));
     }
+
+    @Test
+    void shouldFailWhenAiGeneratorThrows() {
+        when(aiContentGenerator.generateContent("prompt")).thenThrow((new RuntimeException("API Down")));
+
+        assertThrows(RuntimeException.class, () -> {
+            storyService.createStory("Title", "prompt");
+        });
+    }
 }
