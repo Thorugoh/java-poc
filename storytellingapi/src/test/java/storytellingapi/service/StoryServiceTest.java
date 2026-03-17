@@ -6,6 +6,8 @@ import com.storytellingapi.port.StoryRepository;
 import com.storytellingapi.service.StoryService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -60,5 +62,22 @@ public class StoryServiceTest {
         assertThrows(RuntimeException.class, () -> {
             storyService.createStory("Title", "prompt");
         });
+    }
+
+    @Captor
+    private ArgumentCaptor<Story> storyCaptor;
+
+    @Test
+    void shouldCaptureStoryPassedToRepository() {
+        when(repository.existsByTitle("Knight")).thenReturn(false);
+        when(aiContentGenerator.generateContent("prompt")).thenReturn("Once upon a time...");
+
+        storyService.createStory("Knight", "prompt");
+
+        verify(repository).save(storyCaptor.capture());
+        Story capturedStory = storyCaptor.getValue();
+
+        assertEquals("Knight", capturedStory.getTitle());
+        assertEquals("Once upon a time...", capturedStory.getContent());
     }
 }
