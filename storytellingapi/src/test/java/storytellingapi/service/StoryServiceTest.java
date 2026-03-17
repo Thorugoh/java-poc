@@ -6,11 +6,12 @@ import com.storytellingapi.port.StoryRepository;
 import com.storytellingapi.service.StoryService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -79,5 +80,20 @@ public class StoryServiceTest {
 
         assertEquals("Knight", capturedStory.getTitle());
         assertEquals("Once upon a time...", capturedStory.getContent());
+    }
+
+
+    @Spy
+    private List<String> realList = new ArrayList<>();
+
+    @Test
+    void shouldSpyOnRealObject() {
+        Story realStory = spy(new Story("1", "The Knight", "text content"));
+
+        doReturn("Another text").when(realStory).getContent();
+
+        assertEquals("1", realStory.getId());
+        assertEquals("The Knight", realStory.getTitle()); // Real behavior
+        assertEquals("Censored text", realStory.getContent()); // Faked behavior
     }
 }
