@@ -7,7 +7,7 @@ public class YearsExample {
     static void main() {
 
         @SuppressWarnings("deprecation")
-        Date wrongDate = new Date(2024, 2, 15);
+        Date wrongDate = new Date(2026, 2, 15);
         System.out.println("Date (wrong  year): " + wrongDate);
 
         @SuppressWarnings("deprecation")
@@ -15,7 +15,7 @@ public class YearsExample {
         System.out.println("Date (year 'correct'): " + correctDate);
 
         // LocalDate
-        LocalDate data = LocalDate.of(2024, 3, 15);
+        LocalDate data = LocalDate.of(2026, 3, 15);
         System.out.println("LocalDate: " + data);
     }
 }

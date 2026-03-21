@@ -7,8 +7,8 @@ import java.time.Month;
 public class LocalDateExample {
     static void main() {
         LocalDate today = LocalDate.now();
-        LocalDate specificDate = LocalDate.of(2024, 3, 15);
-        LocalDate fromMonth = LocalDate.of(2024, Month.MARCH, 15);
+        LocalDate specificDate = LocalDate.of(2026, 3, 15);
+        LocalDate fromMonth = LocalDate.of(2026, Month.MARCH, 15);
 
         System.out.println("Today: " + today);
         System.out.println("Specific date: " + specificDate);
