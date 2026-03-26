@@ -4,12 +4,11 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 class InstantExample {
-    static void main(String[] args) {
+    static void main() {
 
         Instant now = Instant.now();
         System.out.println("Now (UTC): " + now); // 2026-03-24T19:34:39.123456789Z
 
-        // Creating from epoch (seconds since 1970-01-01T00:00:00Z)
         Instant fromEpoch = Instant.ofEpochSecond(0);
         Instant fromMilli = Instant.ofEpochMilli(1_000_000_000_000L);
         System.out.println("Epoch start: " + fromEpoch);  // 1970-01-01T00:00:00Z
@@ -24,11 +23,9 @@ class InstantExample {
         System.out.println("One hour later:    " + oneHourLater);
         System.out.println("Ten minutes ago:   " + tenMinutesAgo);
 
-        // Comparing instants
         System.out.println("now is before oneHourLater: " + now.isBefore(oneHourLater));
         System.out.println("now is after tenMinutesAgo: " + now.isAfter(tenMinutesAgo));
 
-        // Typical use case: measuring elapsed time
         Instant start = Instant.now();
         long sum = 0;
         for (int i = 0; i < 1_000_000; i++) sum += i;
