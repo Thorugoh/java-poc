@@ -1,4 +1,5 @@
 package com.vhugo.patterns.factory.model;
 
-public class Notification {
+public interface Notification {
+    void send(String recipient, String message);
 }

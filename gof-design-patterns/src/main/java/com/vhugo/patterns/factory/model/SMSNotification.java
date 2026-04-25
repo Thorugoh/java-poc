@@ -1,8 +1,8 @@
 package com.vhugo.patterns.factory.model;
 
-public class EmailNotification implements Notification {
+public class SMSNotification implements Notification {
     @Override
     public void send(String recipient, String message) {
-        System.out.println("Email to: "+ recipient + " | " + message);
+        System.out.println("Sms to: "+ recipient + " | " + message);
     }
 }
