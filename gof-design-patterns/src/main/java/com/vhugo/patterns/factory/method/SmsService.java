@@ -1,4 +1,12 @@
 package com.vhugo.patterns.factory.method;
 
-public class SmsService {
+import com.vhugo.patterns.factory.model.Notification;
+import com.vhugo.patterns.factory.model.SMSNotification;
+
+public class SmsService extends NotificationService {
+
+    @Override
+    protected Notification createNotification() {
+        return new SMSNotification();
+    }
 }
