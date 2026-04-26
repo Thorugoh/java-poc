@@ -17,6 +17,5 @@ public class SimpleFactoryNotification {
                 default -> null;
             }
         );
-
     }
 }

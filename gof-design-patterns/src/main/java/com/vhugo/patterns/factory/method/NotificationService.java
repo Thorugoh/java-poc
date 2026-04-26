@@ -10,7 +10,7 @@ public abstract class NotificationService {
         Notification notification = createNotification();
         System.out.println("Preparing...");
         notification.send(dest, message);
-        System.out.println("Message sent.");
+        System.out.println("notification sent.");
     }
 
 }
