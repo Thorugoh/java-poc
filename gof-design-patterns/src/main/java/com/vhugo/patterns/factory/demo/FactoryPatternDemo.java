@@ -23,5 +23,8 @@ public class FactoryPatternDemo {
         // factory method
         NotificationService emailService = new EmailService();
         emailService.notify("email@email.com", "A new email");
+
+        NotificationService smsService = new EmailService();
+        emailService.notify("+55123456789", "A new Sms");
     }
 }
