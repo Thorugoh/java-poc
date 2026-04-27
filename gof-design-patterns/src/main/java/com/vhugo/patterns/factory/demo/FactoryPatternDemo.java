@@ -2,6 +2,7 @@ package com.vhugo.patterns.factory.demo;
 
 import com.vhugo.patterns.factory.method.EmailService;
 import com.vhugo.patterns.factory.method.NotificationService;
+import com.vhugo.patterns.factory.method.SmsService;
 import com.vhugo.patterns.factory.model.Notification;
 import com.vhugo.patterns.factory.simple.SimpleFactoryNotification;
 
@@ -24,7 +25,7 @@ public class FactoryPatternDemo {
         NotificationService emailService = new EmailService();
         emailService.notify("email@email.com", "A new email");
 
-        NotificationService smsService = new EmailService();
-        emailService.notify("+55123456789", "A new Sms");
+        NotificationService smsService = new SmsService();
+        smsService.notify("+55123456789", "A new Sms");
     }
 }
