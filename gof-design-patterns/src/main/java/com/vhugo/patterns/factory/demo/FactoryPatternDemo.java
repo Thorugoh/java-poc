@@ -1,5 +1,8 @@
 package com.vhugo.patterns.factory.demo;
 
+import com.vhugo.patterns.factory.abstact.Alert;
+import com.vhugo.patterns.factory.abstact.NormalFactory;
+import com.vhugo.patterns.factory.abstact.UrgentFactory;
 import com.vhugo.patterns.factory.method.EmailService;
 import com.vhugo.patterns.factory.method.NotificationService;
 import com.vhugo.patterns.factory.method.SmsService;
@@ -27,5 +30,13 @@ public class FactoryPatternDemo {
 
         NotificationService smsService = new SmsService();
         smsService.notify("+55123456789", "A new Sms");
+
+
+        // Abstract factory
+        Alert alert = new Alert(new NormalFactory());
+        alert.trig("someone", "some message");
+
+        Alert urgentAlert = new Alert(new UrgentFactory());
+        urgentAlert.trig("someone", "some other message");
     }
 }
