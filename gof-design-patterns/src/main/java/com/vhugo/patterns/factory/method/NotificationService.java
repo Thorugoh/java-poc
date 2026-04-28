@@ -12,5 +12,4 @@ public abstract class NotificationService {
         notification.send(dest, message);
         System.out.println("notification sent.");
     }
-
 }
