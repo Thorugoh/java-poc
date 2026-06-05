@@ -30,6 +30,10 @@ public class AppConfig {
         return version;
     }
 
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
     public void display() {
         System.out.println("App: " + appName + " v" + version);
     }
